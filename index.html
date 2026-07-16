@@ -291,7 +291,7 @@
 
     <div class="field-row">
       <label><span class="field-no">2.</span>Date of birth</label>
-      <input type="date" id="dob" max="">
+      <input type="date" id="dob">
     </div>
 
     <div class="submit-row">
@@ -330,7 +330,16 @@ console.log('%cBirthday Record Form — dreamed up by RB', 'color:#F4B942;font-w
   const yyyy = now.getFullYear();
   const mm = String(now.getMonth()+1).padStart(2,'0');
   const dd = String(now.getDate()).padStart(2,'0');
-  document.getElementById('dob').setAttribute('max', `${yyyy}-${mm}-${dd}`);
+  const todayStr = `${yyyy}-${mm}-${dd}`;
+  const dobField = document.getElementById('dob');
+  dobField.setAttribute('max', todayStr);
+
+  dobField.addEventListener('change', function(){
+    if(dobField.value && dobField.value > todayStr){
+      alert("Date of birth cannot be in the future. Please enter a valid date.");
+      dobField.value = '';
+    }
+  });
 })();
 
 
