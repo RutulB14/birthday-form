@@ -279,7 +279,7 @@
       <h1>Birthday Record Form</h1>
       <div class="meta">Fill in the fields below to generate a record</div>
     </div>
-    <div class="form-id">FORM No. BD-02<br>Rev. 3</div>
+    <div class="form-id" id="form-id">FORM No. BD-02</div>
   </div>
 
   <div class="form-body">
@@ -340,6 +340,9 @@ console.log('%cBirthday Record Form — dreamed up by RB', 'color:#F4B942;font-w
       dobField.value = '';
     }
   });
+
+  const formNo = String(Math.floor(Math.random()*900) + 100);
+  document.getElementById('form-id').textContent = `FORM No. BD-${formNo}`;
 })();
 
 
