@@ -250,6 +250,25 @@
     user-select: none;
     pointer-events: none;
   }
+
+  .confetti{
+    position: fixed;
+    top: -10px;
+    width: 8px;
+    height: 8px;
+    opacity: 0.9;
+    pointer-events: none;
+    animation: fall linear forwards;
+    z-index: 999;
+  }
+
+  @keyframes fall{
+    to{ transform: translateY(110vh) rotate(360deg); opacity: 0.3; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .confetti{ animation: none; display:none; }
+  }
 </style>
 </head>
 <body>
@@ -322,6 +341,20 @@ function getZodiac(month, day){
 
 const WEEKDAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 
+function launchConfetti(){
+  const colors = ["#F4B942","#FF6B6B","#4ECDC4","#2B1B3D"];
+  for(let i=0; i<50; i++){
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random()*100 + 'vw';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    c.style.animationDuration = (2 + Math.random()*1.5) + 's';
+    c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    document.body.appendChild(c);
+    setTimeout(()=> c.remove(), 4000);
+  }
+}
+
 function toTitleCase(str){
   return str
     .trim()
@@ -363,7 +396,7 @@ function generateRecord(){
   document.getElementById('record-name').textContent = name;
   document.getElementById('age').textContent = age + " years";
   document.getElementById('weekday').textContent = weekday;
-  document.getElementById('countdown').textContent = daysToNext === 0 ? "Today" : daysToNext + " days";
+  document.getElementById('countdown').textContent = daysToNext === 0 ? "Today! 🎉" : daysToNext + " days";
   document.getElementById('zodiac').textContent = zodiac;
   document.getElementById('daysalive').textContent = daysAlive.toLocaleString() + " days";
 
@@ -372,6 +405,10 @@ function generateRecord(){
     : `Note: born on a ${weekday}, ${daysAlive.toLocaleString()} days ago. This record has been generated and certified as of the current date.`;
 
   document.getElementById('results').classList.add('show');
+
+  if(daysToNext === 0){
+    launchConfetti();
+  }
 }
 </script>
 
