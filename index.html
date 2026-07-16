@@ -343,15 +343,16 @@ const WEEKDAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","S
 
 function launchConfetti(){
   const colors = ["#F4B942","#FF6B6B","#4ECDC4","#2B1B3D"];
-  for(let i=0; i<50; i++){
+  for(let i=0; i<120; i++){
     const c = document.createElement('div');
     c.className = 'confetti';
     c.style.left = Math.random()*100 + 'vw';
     c.style.background = colors[Math.floor(Math.random()*colors.length)];
-    c.style.animationDuration = (2 + Math.random()*1.5) + 's';
+    c.style.animationDuration = (4 + Math.random()*1.5) + 's';
+    c.style.animationDelay = (Math.random()*0.8) + 's';
     c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
     document.body.appendChild(c);
-    setTimeout(()=> c.remove(), 4000);
+    setTimeout(()=> c.remove(), 6500);
   }
 }
 
