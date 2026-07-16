@@ -291,7 +291,7 @@
 
     <div class="field-row">
       <label><span class="field-no">2.</span>Date of birth</label>
-      <input type="date" id="dob">
+      <input type="date" id="dob" max="">
     </div>
 
     <div class="submit-row">
@@ -325,6 +325,15 @@
 <script>
 console.log('%cBirthday Record Form — dreamed up by RB', 'color:#F4B942;font-weight:bold;font-size:12px;');
 
+(function(){
+  const now = new Date();
+  const yyyy = now.getFullYear();
+  const mm = String(now.getMonth()+1).padStart(2,'0');
+  const dd = String(now.getDate()).padStart(2,'0');
+  document.getElementById('dob').setAttribute('max', `${yyyy}-${mm}-${dd}`);
+})();
+
+
 const ZODIAC = [
   [120,"Capricorn"], [219,"Aquarius"], [320,"Pisces"], [420,"Aries"],
   [521,"Taurus"], [621,"Gemini"], [722,"Cancer"], [823,"Leo"],
@@ -343,16 +352,20 @@ const WEEKDAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","S
 
 function launchConfetti(){
   const colors = ["#F4B942","#FF6B6B","#4ECDC4","#2B1B3D"];
-  for(let i=0; i<120; i++){
+  for(let i=0; i<220; i++){
     const c = document.createElement('div');
     c.className = 'confetti';
     c.style.left = Math.random()*100 + 'vw';
+    c.style.top = (Math.random()*100 - 20) + 'vh';
     c.style.background = colors[Math.floor(Math.random()*colors.length)];
-    c.style.animationDuration = (4 + Math.random()*1.5) + 's';
-    c.style.animationDelay = (Math.random()*0.8) + 's';
+    const size = 6 + Math.random()*6;
+    c.style.width = size + 'px';
+    c.style.height = size + 'px';
+    c.style.animationDuration = (4 + Math.random()*2) + 's';
+    c.style.animationDelay = (Math.random()*1) + 's';
     c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
     document.body.appendChild(c);
-    setTimeout(()=> c.remove(), 6500);
+    setTimeout(()=> c.remove(), 7500);
   }
 }
 
@@ -377,6 +390,11 @@ function generateRecord(){
   const dob = new Date(dobInput + 'T00:00:00');
   const today = new Date();
   today.setHours(0,0,0,0);
+
+  if(dob > today){
+    alert("Date of birth cannot be in the future. Please enter a valid date.");
+    return;
+  }
 
   let age = today.getFullYear() - dob.getFullYear();
   const hasHadBirthdayThisYear =
