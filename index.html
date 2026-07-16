@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Record Form</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,700;1,500&family=Space+Grotesk:wght@400;500;700&display=swap');
+
+  :root{
+    --ink: #2B1B3D;
+    --gold: #F4B942;
+    --coral: #FF6B6B;
+    --teal: #4ECDC4;
+    --cream: #FFF8ED;
+    --paper: #FFFDF7;
+    --line: #E8E0D0;
+  }
+
+  *{ box-sizing: border-box; }
+
+  body{
+    margin:0;
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(244,185,66,0.15), transparent 40%),
+      radial-gradient(circle at 85% 80%, rgba(78,205,196,0.15), transparent 40%),
+      var(--ink);
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    color: var(--ink);
+    display:flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 48px 16px;
+  }
+
+  .form-sheet{
+    width: 100%;
+    max-width: 560px;
+    background: var(--paper);
+    border-radius: 18px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.35), 0 0 0 1px rgba(0,0,0,0.05);
+    overflow: hidden;
+  }
+
+  .form-sheet::before{
+    content:"";
+    display:block;
+    height: 10px;
+    background: repeating-linear-gradient(45deg, var(--coral) 0 14px, var(--gold) 14px 28px);
+  }
+
+  .form-header{
+    border-bottom: 2px solid var(--line);
+    padding: 22px 32px 18px;
+    display:flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .form-header h1{
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 4px;
+  }
+
+  .form-header .meta{
+    font-size: 12px;
+    color: #8a8296;
+  }
+
+  .form-id{
+    text-align: right;
+    font-size: 11px;
+    color: var(--coral);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    line-height: 1.6;
+  }
+
+  .form-body{
+    padding: 26px 32px 32px;
+  }
+
+  .field-row{
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px dashed var(--line);
+  }
+
+  .field-row label{
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .field-row .field-no{
+    color: var(--coral);
+    font-weight: 700;
+    margin-right: 4px;
+  }
+
+  input[type="text"], input[type="date"]{
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid var(--line);
+    border-radius: 10px;
+    background: var(--cream);
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--ink);
+    outline: none;
+    transition: border-color .15s ease;
+  }
+
+  input[type="text"]:focus, input[type="date"]:focus{
+    border-color: var(--teal);
+  }
+
+  .submit-row{
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  button{
+    padding: 12px 28px;
+    background: var(--ink);
+    color: var(--gold);
+    border: none;
+    border-radius: 10px;
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: transform .1s ease, background .15s ease;
+  }
+
+  button:hover{ background: #3d2757; }
+  button:active{ transform: scale(0.98); }
+
+  .results{
+    display: none;
+    margin-top: 26px;
+    border-top: 2px solid var(--line);
+    padding-top: 22px;
+  }
+
+  .results.show{ display: block; }
+
+  .results-title{
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .seal{
+    display: inline-flex;
+    align-items:center;
+    justify-content:center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid var(--coral);
+    color: var(--coral);
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-style: italic;
+    font-size: 10px;
+    text-align: center;
+    line-height: 1.1;
+    transform: rotate(-8deg);
+    letter-spacing: 0.5px;
+  }
+
+  table.record{
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  table.record tr{
+    border-bottom: 1px solid var(--line);
+  }
+
+  table.record tr:nth-child(even){
+    background: var(--cream);
+  }
+
+  table.record td{
+    padding: 10px 8px;
+  }
+
+  table.record td.k{
+    color: #8a8296;
+    font-weight: 500;
+    width: 55%;
+  }
+
+  table.record td.v{
+    font-weight: 700;
+    text-align: right;
+    color: var(--ink);
+  }
+
+  .note{
+    margin-top: 16px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #4a3e63;
+    background: #F0EAFB;
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+
+  .disclaimer{
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px dashed var(--line);
+    font-size: 11px;
+    line-height: 1.6;
+    color: #8a8296;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="form-sheet">
+  <div class="form-header">
+    <div>
+      <h1>Birthday Record Form</h1>
+      <div class="meta">Fill in the fields below to generate a record</div>
+    </div>
+    <div class="form-id">FORM No. BD-02<br>Rev. 3</div>
+  </div>
+
+  <div class="form-body">
+
+    <div class="field-row">
+      <label><span class="field-no">1.</span>Full name</label>
+      <input type="text" id="name" placeholder="Enter full name" autocomplete="off">
+    </div>
+
+    <div class="field-row">
+      <label><span class="field-no">2.</span>Date of birth</label>
+      <input type="date" id="dob">
+    </div>
+
+    <div class="submit-row">
+      <button onclick="generateRecord()">Generate record</button>
+    </div>
+
+    <div class="results" id="results">
+      <div class="results-title">
+        <span id="record-name">Record</span>
+        <span class="seal">CERTI-<br>FIED</span>
+      </div>
+
+      <table class="record">
+        <tr><td class="k">Current age</td><td class="v" id="age"></td></tr>
+        <tr><td class="k">Day of the week born</td><td class="v" id="weekday"></td></tr>
+        <tr><td class="k">Days until next birthday</td><td class="v" id="countdown"></td></tr>
+        <tr><td class="k">Zodiac sign</td><td class="v" id="zodiac"></td></tr>
+        <tr><td class="k">Total days alive</td><td class="v" id="daysalive"></td></tr>
+      </table>
+
+      <div class="note" id="note"></div>
+    </div>
+
+    <div class="disclaimer">This page is for entertainment purposes only. No data entered here is saved, stored, or sent anywhere — everything is calculated in your browser and disappears when you close the page.</div>
+
+  </div>
+</div>
+
+<script>
+const ZODIAC = [
+  [120,"Capricorn"], [219,"Aquarius"], [320,"Pisces"], [420,"Aries"],
+  [521,"Taurus"], [621,"Gemini"], [722,"Cancer"], [823,"Leo"],
+  [923,"Virgo"], [1023,"Libra"], [1122,"Scorpio"], [1222,"Sagittarius"], [1231,"Capricorn"]
+];
+
+function getZodiac(month, day){
+  const md = month*100 + day;
+  for(const [cutoff, sign] of ZODIAC){
+    if(md <= cutoff) return sign;
+  }
+  return "Capricorn";
+}
+
+const WEEKDAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
+function toTitleCase(str){
+  return str
+    .trim()
+    .split(/\s+/)
+    .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+    .join(' ');
+}
+
+function generateRecord(){
+  const nameInput = document.getElementById('name').value.trim();
+  const dobInput = document.getElementById('dob').value;
+
+  if(!dobInput){
+    alert("Field 2 (Date of birth) is required.");
+    return;
+  }
+
+  const name = nameInput ? toTitleCase(nameInput) : "Unnamed";
+  const dob = new Date(dobInput + 'T00:00:00');
+  const today = new Date();
+  today.setHours(0,0,0,0);
+
+  let age = today.getFullYear() - dob.getFullYear();
+  const hasHadBirthdayThisYear =
+    (today.getMonth() > dob.getMonth()) ||
+    (today.getMonth() === dob.getMonth() && today.getDate() >= dob.getDate());
+  if(!hasHadBirthdayThisYear) age--;
+
+  const weekday = WEEKDAYS[dob.getDay()];
+
+  let next = new Date(today.getFullYear(), dob.getMonth(), dob.getDate());
+  if(next < today) next = new Date(today.getFullYear()+1, dob.getMonth(), dob.getDate());
+  const msPerDay = 1000*60*60*24;
+  const daysToNext = Math.round((next - today) / msPerDay);
+
+  const daysAlive = Math.round((today - dob) / msPerDay);
+  const zodiac = getZodiac(dob.getMonth()+1, dob.getDate());
+
+  document.getElementById('record-name').textContent = name;
+  document.getElementById('age').textContent = age + " years";
+  document.getElementById('weekday').textContent = weekday;
+  document.getElementById('countdown').textContent = daysToNext === 0 ? "Today" : daysToNext + " days";
+  document.getElementById('zodiac').textContent = zodiac;
+  document.getElementById('daysalive').textContent = daysAlive.toLocaleString() + " days";
+
+  document.getElementById('note').textContent = daysToNext === 0
+    ? `Note: today is ${name}'s birthday according to the record on file.`
+    : `Note: born on a ${weekday}, ${daysAlive.toLocaleString()} days ago. This record has been generated and certified as of the current date.`;
+
+  document.getElementById('results').classList.add('show');
+}
+</script>
+
+</body>
+</html>
