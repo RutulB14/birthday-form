@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- Concept & design: RB -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -41,6 +42,7 @@
     border-radius: 18px;
     box-shadow: 0 30px 60px rgba(0,0,0,0.35), 0 0 0 1px rgba(0,0,0,0.05);
     overflow: hidden;
+    position: relative;
   }
 
   .form-sheet::before{
@@ -229,6 +231,20 @@
     color: #8a8296;
     text-align: center;
   }
+
+  .rb-mark{
+    position: absolute;
+    bottom: 6px;
+    right: 10px;
+    font-family: 'Fraunces', serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--paper);
+    opacity: 0.06;
+    user-select: none;
+    pointer-events: none;
+  }
 </style>
 </head>
 <body>
@@ -278,9 +294,13 @@
     <div class="disclaimer">This page is for entertainment purposes only. No data entered here is saved, stored, or sent anywhere — everything is calculated in your browser and disappears when you close the page.</div>
 
   </div>
+
+  <div class="rb-mark">RB</div>
 </div>
 
 <script>
+console.log('%cBirthday Record Form — dreamed up by RB', 'color:#F4B942;font-weight:bold;font-size:12px;');
+
 const ZODIAC = [
   [120,"Capricorn"], [219,"Aquarius"], [320,"Pisces"], [420,"Aries"],
   [521,"Taurus"], [621,"Gemini"], [722,"Cancer"], [823,"Leo"],
